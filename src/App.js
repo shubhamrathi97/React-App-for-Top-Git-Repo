@@ -19,7 +19,7 @@ class App extends Component {
     
     constructor() {
         super();
-        this.state = {list: [], modalIsOpen: false};
+        this.state = {list: [], modalIsOpen: false, values: []};
         this.openModal = this.openModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -27,15 +27,15 @@ class App extends Component {
 
 
     openModal(values) {
-        this.setState({modalIsOpen: true});
-        this.setState({value: values})
+        this.setState({value: values});
+        this.setState({modalIsOpen: true});        
     }
 
 
     afterOpenModal() {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
-        this.values = this.state.list[this.state.value];
+        this.setState({values: this.state.list[this.state.value] });
     }
 
     closeModal() {
@@ -52,7 +52,7 @@ class App extends Component {
               th.setState({
                 list: result.data.items
               });
-            })
+            });
     }
 
   render() {
@@ -79,12 +79,28 @@ class App extends Component {
                     style={customStyles}
                     contentLabel="Information Modal"
                 >
-                    <h2 ref={subtitle => this.subtitle = subtitle}>{this.values}</h2>
+                    <h2 ref={subtitle => this.subtitle = subtitle}>{this.state.values.name}</h2>
                     <table>
                         <tbody>
                             <tr>
-                                <td>12</td>
-                                <td>12</td>
+                                <td>Name</td>
+                                <td>{this.state.values.name}</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>{this.state.values.description}</td>
+                            </tr>
+                            <tr>
+                                <td>Git URL</td>
+                                <td>{this.state.values.url}</td>
+                            </tr>
+                            <tr>
+                                <td>Forks</td>
+                                <td>{this.state.values.forks}</td>
+                            </tr>
+                            <tr>
+                                <td>Watchers</td>
+                                <td>{this.state.values.watchers}</td>
                             </tr>
                         </tbody>
                     </table>
